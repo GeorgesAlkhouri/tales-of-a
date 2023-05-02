@@ -1,0 +1,22 @@
+# Python compiled files
+*.pyc
+**/__pycache__
+# Virtual environments
+venv/ .env/
+.env
+# Logs
+*.log
+# Idea files
+.idea/**
+*.iml
+# Compiled files
+pycache/
+# Miscellaneous
+.DS_Store
+# Compiled python modules
+*.pyo *.pyc
+*.pyx *.so
+# Build output
+build/ dist/ *.egg-info/
+# IDE Folders
+.vscode/ .pydev/ .anaconda/ .idea/ .pycharm_helpers/ .tox/ .cache/ .vs/ pytest_cache/
