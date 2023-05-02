@@ -1,4 +1,5 @@
 from discord import Intents, File
+import discord
 from discord.ext import commands
 import random
 
@@ -31,6 +32,25 @@ async def move_hero(ctx, direction: str):
         await ctx.send(f"{game.get_hero_status()}")
     else:
         await ctx.send(f"{ctx.author.mention}, {response}")
+
+
+@bot.command(name='inventory')
+async def list_inventory(ctx):
+    global game
+    if not game:
+        await ctx.send(f"{ctx.author.mention}, you need to start a game first using the `>startgame` command.")
+        return
+
+    embed = discord.Embed(title="Inventory", color=discord.Color.blue())
+
+    if not game.player.inventory:
+        embed.description = "Your inventory is empty."
+    else:
+        for item in game.player.inventory:
+            embed.add_field(
+                name=item, value="Item description or quantity", inline=False)
+
+    await ctx.send(embed=embed)
 
 
 @bot.command(name='guess')
