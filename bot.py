@@ -41,7 +41,8 @@ async def list_inventory(ctx):
         await ctx.send(f"{ctx.author.mention}, you need to start a game first using the `>startgame` command.")
         return
 
-    embed = discord.Embed(title="Inventory", color=discord.Color.blue())
+    embed = discord.Embed(title=f"__**{message.author.name}'s Inventory**__", color=discord.Color.blue())
+    embed.set_thumbnail(url=message.author.avatar_url)
 
     if not game.player.inventory:
         embed.description = "Your inventory is empty."
