@@ -36,8 +36,6 @@ class Game:
                 row.append(terrain)
             self.game_map.append(row)
 
-        self.game_map[5][5] = "hero"
-
     def render_map(self):
         print(f'render_map() called')
         tile_size = 128
@@ -49,7 +47,10 @@ class Game:
 
         for i, row in enumerate(self.game_map):
             for j, terrain in enumerate(row):
-                icon_image = Image.open(icons[terrain])
+                if (i, j) == self.hero_position:
+                    icon_image = Image.open(icons["hero"])
+                else:
+                    icon_image = Image.open(icons[terrain])
                 map_image.paste(icon_image, (j * tile_size, i * tile_size))
 
         map_image.save("map.png", "PNG")
@@ -73,8 +74,6 @@ class Game:
         if new_x < 0 or new_x > 9 or new_y < 0 or new_y > 9:
             return "Invalid move", False
 
-        self.game_map[x][y] = "grass"
-        self.game_map[new_x][new_y] = "hero"
         self.hero_position = (new_x, new_y)
 
         # Decrease energy
@@ -85,3 +84,4 @@ class Game:
             return "You have no health left. Game Over!", False
 
         return self.render_map(), True
+    
