@@ -60,13 +60,13 @@ class Game:
         x, y = self.hero_position
         new_x, new_y = x, y
 
-        if direction.lower() == "up":
+        if direction.lower() == "up" or direction.lower() == "w":
             new_x -= 1
-        elif direction.lower() == "down":
+        elif direction.lower() == "down" or direction.lower() == "s":
             new_x += 1
-        elif direction.lower() == "left":
+        elif direction.lower() == "left" or direction.lower() == "a":
             new_y -= 1
-        elif direction.lower() == "right":
+        elif direction.lower() == "right" or direction.lower() == "d":
             new_y += 1
         else:
             return "Invalid direction", False

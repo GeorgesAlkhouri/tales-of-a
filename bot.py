@@ -15,7 +15,7 @@ intents = Intents.all()
 bot = commands.Bot(command_prefix=config.default_prefix, intents=intents)
 
 
-@bot.command(name='tales')
+@bot.command(name="tales")
 async def start_game(ctx):
     global game
     game = Game()
@@ -23,7 +23,7 @@ async def start_game(ctx):
     await ctx.send(f"{ctx.author.mention} started a new game!", file=File("map.png"))
 
 
-@bot.command(name='move')
+@bot.command(name="move", aliases=["m"])
 async def move_hero(ctx, direction: str):
     response, success = game.move_hero(direction)
     if success:
@@ -34,14 +34,34 @@ async def move_hero(ctx, direction: str):
         await ctx.send(f"{ctx.author.mention}, {response}")
 
 
-@bot.command(name='inventory')
+@bot.command(name="map")
+async def show_map(ctx):
+    global game
+    if not game:
+        await ctx.send(
+            f"{ctx.author.mention}, you need to start a game first using the `>startgame` command."
+        )
+        return
+
+    game.render_map()
+    await ctx.send(
+        f"{ctx.author.mention} here's the current state of the map:",
+        file=discord.File("map.png"),
+    )
+
+
+@bot.command(name="inventory", aliases=["i"])
 async def list_inventory(ctx):
     global game
     if not game:
-        await ctx.send(f"{ctx.author.mention}, you need to start a game first using the `startgame` command.")
+        await ctx.send(
+            f"{ctx.author.mention}, you need to start a game first using the `startgame` command."
+        )
         return
 
-    embed = discord.Embed(title=f"__**{ctx.author.name}'s Inventory**__", color=discord.Color.blue())
+    embed = discord.Embed(
+        title=f"__**{ctx.author.name}'s Inventory**__", color=discord.Color.blue()
+    )
     embed.set_thumbnail(url=ctx.author.avatar)
 
     if not game.player.inventory:
@@ -49,14 +69,16 @@ async def list_inventory(ctx):
     else:
         for item in game.player.inventory:
             embed.add_field(
-                name=item, value="Item description or quantity", inline=False)
+                name=item, value="Item description or quantity", inline=False
+            )
 
     await ctx.send(embed=embed)
 
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
+    print(f"{bot.user.name} has connected to Discord!")
+
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -64,5 +86,6 @@ async def on_command_error(ctx, error):
         await ctx.send("Unknown command.")
     else:
         await ctx.send(f"Error: {error}")
+
 
 bot.run(config.bot_token)
