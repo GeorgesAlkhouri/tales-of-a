@@ -2,7 +2,8 @@
 *.pyc
 **/__pycache__
 # Virtual environments
-venv/ .env/
+venv/ .env/ 
+talesvenv/
 .env
 # Logs
 *.log

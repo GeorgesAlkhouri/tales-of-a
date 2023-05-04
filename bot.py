@@ -38,11 +38,11 @@ async def move_hero(ctx, direction: str):
 async def list_inventory(ctx):
     global game
     if not game:
-        await ctx.send(f"{ctx.author.mention}, you need to start a game first using the `>startgame` command.")
+        await ctx.send(f"{ctx.author.mention}, you need to start a game first using the `startgame` command.")
         return
 
-    embed = discord.Embed(title=f"__**{message.author.name}'s Inventory**__", color=discord.Color.blue())
-    embed.set_thumbnail(url=message.author.avatar_url)
+    embed = discord.Embed(title=f"__**{ctx.author.name}'s Inventory**__", color=discord.Color.blue())
+    embed.set_thumbnail(url=ctx.author.avatar)
 
     if not game.player.inventory:
         embed.description = "Your inventory is empty."
@@ -54,28 +54,15 @@ async def list_inventory(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(name='guess')
-async def guess_number(ctx, number: int):
-    target_number = random.randint(1, 10)
-    if number == target_number:
-        await ctx.send(f'Congratulations {ctx.author.mention}! You guessed the number correctly!')
-    else:
-        await ctx.send(f'Sorry {ctx.author.mention}, the correct number was {target_number}. Better luck next time!')
-
-
-@guess_number.error
-async def guess_number_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f'{ctx.author.mention}, you need to provide a number between 1 and 10.')
-    elif isinstance(error, commands.BadArgument):
-        await ctx.send(f'{ctx.author.mention}, your input is not a valid integer.')
-    else:
-        raise error
-
-
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("Unknown command.")
+    else:
+        await ctx.send(f"Error: {error}")
 
 bot.run(config.bot_token)
