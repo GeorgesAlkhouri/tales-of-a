@@ -4,6 +4,7 @@ from discord.ext import bridge
 
 from config import Config
 from game import Game
+from movebuttonview import MoveButtonsView
 
 game = Game()
 config = Config()
@@ -27,8 +28,22 @@ async def move(ctx, direction: str):
     response, success = game.move_hero(direction)
     if success:
         game.render_map()
-        await ctx.respond(f"{ctx.author.mention} moved {direction}!", file=File("map.png"))
-        await ctx.respond(f"{game.get_hero_status()}")
+        hero_status = game.get_hero_status()
+
+        embed = discord.Embed(
+            title=f"{ctx.author.name} moved {direction}!",
+            description=f"{hero_status}",
+            color=discord.Color.blue(),
+        )
+        embed.set_image(url="attachment://map_image.png")
+
+        move_buttons_view = MoveButtonsView(game, ctx)
+
+        await ctx.respond(
+            file=discord.File("map.png", filename="map_image.png"),
+            embed=embed,
+            view=move_buttons_view,
+        )
     else:
         await ctx.respond(f"{ctx.author.mention}, {response}")
 
