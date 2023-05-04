@@ -75,6 +75,11 @@ async def list_inventory(ctx):
     await ctx.send(embed=embed)
 
 
+@bot.command(name='version')
+async def show_version(ctx):
+    config = Config()
+    await ctx.send(f"Current bot version: {config.version}")
+
 @bot.event
 async def on_ready():
     print(f"{bot.user.name} has connected to Discord!")
