@@ -13,4 +13,4 @@ class Config:
     def __init__(self):
         self.bot_token = os.getenv("TOKEN")
         self.default_prefix = os.getenv("PREFIX", ">")
-        self.version = "0.0.1"
+        self.version = "0.0.3"
