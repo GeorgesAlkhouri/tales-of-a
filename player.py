@@ -44,10 +44,17 @@ icons = {
 
 
 class Player:
-    def __init__(self, health, energy):
+    def __init__(self, health, energy, strength, dexterity, defense):
         self.health = health
+        self.max_health = health
         self.energy = energy
-        self.inventory = ["Sword", "Shield", "Potion"]
+        self.max_energy = energy
+        self.strength = strength
+        self.dexterity = dexterity
+        self.defense = defense
+        self.inventory = {"Wood": 3, "Stone": 5, "Iron": 6, "Water": 6, "Herbs": 2}
+        self.weapon = "Bow"
+        self.armor = ""
 
     def decrease_energy(self):
         self.energy -= 1
@@ -59,18 +66,51 @@ class Player:
         self.health -= 1
         if self.health <= 0:
             self.health = 0
+    
+    def regen_health(self):
+        self_health = self.max_health
+    
+    def regen_energy(self):
+        self_energy = self.max_energy
 
     def get_status(self):
         print(f"Health: {self.health} | Energy: {self.energy}")
-        return f"{icons['health']} Health: {self.health} {icons['energy']} Energy: {self.energy}"
+        return f"**{self.health}/{self.max_health}** {icons['health']} Health /n**{self.energy}/{self.max_energy}** {icons['energy']} Energy"
+    
 
     def get_inventory(self):
         if not self.inventory:
             return "Your inventory is empty."
         else:
             inventory_list = ""
-            for item in self.inventory:
+            for key, value in self.inventory.items():
                               
-                inventory_list += f"{icons[item]} • `{item}` • **4** \n"
+                inventory_list += f"{icons[key]} • `{key}` • **{value}** \n"
         
         return inventory_list
+    
+    def get_weapon(self):
+        if not self.inventory:
+            return "You are unarmed."
+        else:
+            item = self.weapon
+            weapon_list = f"{icons[item]} • `{item}` • **10/10** \n"
+        
+        return weapon_list
+    
+    def get_attributes(self):
+        strength = self.strength
+        defense = self.defense
+        dexterity = self.dexterity
+        attributes_list = f"{icons['Strength']} • `Strength` • **{strength}** \n{icons['Defense']} • `Defense` • **{defense}** \n{icons['Dexterity']} • `Dexterity` • **{dexterity}** \n"
+        
+        return attributes_list
+    
+    def get_constitution(self):
+        health = self.health
+        energy = self.energy
+        max_health = self.max_health
+        max_energy = self.max_energy
+        constitution_list = f"{icons['Health']} • `Health` • **{health}/{max_health}** \n{icons['Energy']} • `Energy` • **{energy}/{max_energy}**"
+        
+        return constitution_list
