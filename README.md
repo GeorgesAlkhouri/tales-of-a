@@ -53,7 +53,7 @@ The bot should now be running and connected to your Discord server. Use the `>` 
 
 - `>startgame`: Starts a new game.
 - `>move [direction]`: Moves the hero in the specified direction (up, down, left, or right).
-- '>inventory`: Displays the hero's inventory
+- `>inventory`: Displays the hero's inventory
 - `>map`: Responds with the current map state without moving the hero
 - `>version`: Get the current version of the bot
 
