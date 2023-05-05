@@ -81,10 +81,10 @@ async def inventory(ctx):
     if not game.player.inventory:
         embed.description = "Your inventory is empty."
     else:
-        for item in game.player.inventory:
-            embed.add_field(
-                name=item, value="Item description or quantity", inline=False
-            )
+        inventory_list = game.player.get_inventory()
+        embed.add_field(
+            name="Items", value=inventory_list, inline=False
+        )
 
     await ctx.respond(embed=embed)
 
