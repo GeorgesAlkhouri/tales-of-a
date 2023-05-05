@@ -67,9 +67,10 @@ class Player:
     def get_inventory(self):
         if not self.inventory:
             return "Your inventory is empty."
+        else:
+            inventory_list = ""
+            for item in self.inventory:
+                              
+                inventory_list += f"{icons[item]} • `{item}` • **4** \n"
         
-        inventory_str = "Your inventory contains:\n"
-        for item in self.inventory:
-            inventory_str += f"- {item}\n"
-        
-        return inventory_str
+        return inventory_list
