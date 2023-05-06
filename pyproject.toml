@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tales-of-a"
+version = "0.1.0"
+description = "An RPG style discord bot"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow",
+    "discord",
+    "python-dotenv",
+]
