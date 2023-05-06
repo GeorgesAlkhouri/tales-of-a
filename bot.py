@@ -74,17 +74,56 @@ async def inventory(ctx):
         return
 
     embed = discord.Embed(
-        title=f"__**{ctx.author.name}'s Inventory**__", color=discord.Color.blue()
+        title=f"__**{ctx.author.name}'s Inventory**__", color=discord.Color.dark_gray()
     )
     embed.set_thumbnail(url=ctx.author.avatar)
 
+    if not game.player.weapon:
+        weapon_list = "You are unarmed."
+    else:
+        weapon_list = game.player.get_weapon()
+        embed.add_field(
+            name="Weapon", value=weapon_list, inline=False
+        )
+
     if not game.player.inventory:
-        embed.description = "Your inventory is empty."
+        inventory_list = "Your inventory is empty."
     else:
         inventory_list = game.player.get_inventory()
         embed.add_field(
             name="Items", value=inventory_list, inline=False
         )
+    
+    embed.set_footer(text=f"More informations with `toa help items`")
+
+    await ctx.respond(embed=embed)
+
+
+@bot.bridge_command()
+async def stats(ctx):
+    global game
+    if not game:
+        await ctx.respond(
+            f"{ctx.author.mention}, you need to start a game first using the `startgame` command."
+        )
+        return
+
+    embed = discord.Embed(
+        title=f"__**{ctx.author.name}'s Stats**__", color=discord.Color.dark_gray()
+    )
+    embed.set_thumbnail(url=ctx.author.avatar)
+
+    constitution_list = game.player.get_constitution()
+    embed.add_field(
+        name="Constitution", value=constitution_list, inline=False
+        )
+
+    attributes_list = game.player.get_attributes()
+    embed.add_field(
+        name="Attributes", value=attributes_list, inline=False
+        )
+    
+    embed.set_footer(text=f"More informations with `toa help stats`")
 
     await ctx.respond(embed=embed)
 
