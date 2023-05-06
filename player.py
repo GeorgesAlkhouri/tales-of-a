@@ -38,7 +38,9 @@ icons = {
     'Chop': '<:Chop:1099424386546683944>',
     'Club': '<:Club:1096410443037278281>',
     'Defense': '<:Defense:1097394054070808717>',
-    'Demon': '<:Demon:1096696395697754182>'
+    'Demon': '<:Demon:1096696395697754182>',
+    'Demon4': '<:Demon4:1104429614836764792>',
+    'Chest': '<:Chest:1104429086601908234>'
 }
 
 
@@ -52,9 +54,12 @@ class Player:
         self.strength = strength
         self.dexterity = dexterity
         self.defense = defense
+        self.world_stage = 1
         self.inventory = {"Wood": 3, "Stone": 5, "Iron": 6, "Water": 6, "Herbs": 2}
         self.weapon = "Bow"
+        self.max_weapon_durability = 10
         self.armor = ""
+        self.traits = {"Lumberjack": 1, "Druid": 1, "Wanderer": 1}
 
     def decrease_energy(self):
         self.energy -= 1
@@ -80,7 +85,7 @@ class Player:
 
     def get_inventory(self):
         if not self.inventory:
-            return "Your inventory is empty."
+            inventory_list = "Your inventory is empty."
         else:
             inventory_list = ""
             for key, value in self.inventory.items():
@@ -91,10 +96,11 @@ class Player:
     
     def get_weapon(self):
         if not self.inventory:
-            return "You are unarmed."
+            weapon_list = "You are unarmed."
         else:
             item = self.weapon
-            weapon_list = f"{icons[item]} • `{item}` • **10/10** \n"
+            max_weapon_durability = self.max_weapon_durability
+            weapon_list = f"{icons[item]} • `{item}` • **10/{max_weapon_durability}** \n"
         
         return weapon_list
     
@@ -102,7 +108,8 @@ class Player:
         strength = self.strength
         defense = self.defense
         dexterity = self.dexterity
-        attributes_list = f"{icons['Strength']} • `Strength` • **{strength}** \n{icons['Defense']} • `Defense` • **{defense}** \n{icons['Dexterity']} • `Dexterity` • **{dexterity}** \n"
+        world_stage = self.world_stage
+        attributes_list = f"{icons['Strength']} • `Strength` • **{strength}** \n{icons['Defense']} • `Defense` • **{defense}** \n{icons['Dexterity']} • `Dexterity` • **{dexterity}** \n{icons['WorldStage']} • `World Stage` • **{world_stage}** \n"
         
         return attributes_list
     
@@ -114,3 +121,14 @@ class Player:
         constitution_list = f"{icons['Health']} • `Health` • **{health}/{max_health}** \n{icons['Energy']} • `Energy` • **{energy}/{max_energy}**"
         
         return constitution_list
+        
+    def get_traits(self):
+        if not self.traits:
+            traits_list = "You got no active traits."
+        else:
+            trait_list = ""
+            for key, value in self.traits.items():
+                              
+                traits_list += f"{icons["Buff"]} • `{key}` • **{value}** \n"
+        
+        return traits_list
