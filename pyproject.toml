@@ -10,6 +10,6 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "Pillow",
-    "discord",
     "python-dotenv",
+    "py-cord",
 ]
